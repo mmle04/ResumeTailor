@@ -1,0 +1,2 @@
+Michael implemented the intial functions that made retrieving the input files and making sure that the files are of the correct type. AI tools were used to help create file_loader.py. The rest was done without AI. The generated code will ask the user to input the path of the file they want to analyze (resume and job description) and will only accept .docx format. It does exactly what is expected, giving an error when the file isn't the correct type. No additional modifications were necessary for the prompts to get the correct code for file_loader.py.
+
