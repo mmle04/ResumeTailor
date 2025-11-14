@@ -1,9 +1,27 @@
-import os
+# resume_parser.py
+import re
+from docx import Document  # pip install python-docx
 
-def parse_resume(path):
-    print("parsing resume")
+STOPWORDS = {
+    "the", "and", "a", "an", "of", "for", "in", "on", "to", "with",
+    "is", "are", "as", "at", "by", "from", "this", "that", "my"
+}
 
-    #parse file, add values to like an array or something
+def _extract_keywords(text: str) -> list[str]:
+    words = re.findall(r"[A-Za-z]{3,}", text.lower())
+    unique = {w for w in words if w not in STOPWORDS}
+    return sorted(unique)
 
-    # next person will just compare how similar the two arrays
-    # are for now, we will make it more complex later
+def parse_resume(path: str) -> dict:
+    # Parses a .docx resume file and returns a simple dictionary with raw text and extracted keywords.
+
+    doc = Document(path)
+    full_text = "\n".join(p.text for p in doc.paragraphs)
+
+    keywords = _extract_keywords(full_text)
+
+    print("Parsed resume successfully.")
+    return {
+        "raw_text": full_text,
+        "keywords": keywords
+    }
