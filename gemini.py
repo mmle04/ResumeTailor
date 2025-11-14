@@ -21,7 +21,6 @@ def prompt_AI(resume_file, job_description_file):
         "finally, provide counts (missing/present/suggestions) and one pro tip."
     )
 
-
     response = client.models.generate_content(
         model="gemini-2.0-flash",
         contents=[prompt, resume , job_description]
