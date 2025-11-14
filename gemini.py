@@ -17,7 +17,7 @@ def prompt_AI(resume_file, job_description_file):
         "Parse both and perform this analysis: "
         "identify sentences to improve and propose replacements; "
         "identify missing and present keywords in lists; "
-        "calculate a match score from 0–100%; "
+        "calculate a match score from 0-100%; "
         "finally, provide counts (missing/present/suggestions) and one pro tip."
     )
 
