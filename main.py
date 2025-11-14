@@ -1,6 +1,7 @@
 from file_loader import load_file
 from resume_parser import parse_resume
 from job_parser import parse_job
+from gemini import prompt_AI
 
 
 def main():
@@ -21,7 +22,7 @@ def main():
         resume_parsed = parse_resume(resume_file)
         job_parsed = parse_job(job_file)
 
-    
+        prompt_AI(resume_parsed, job_parsed)
         
     except FileNotFoundError as e:
         print(f"Error: {e}")
