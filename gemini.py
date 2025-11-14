@@ -8,13 +8,23 @@ import os
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-# def prompt_AI(resume, job_description):
-# client.files.upload(file=resume)
-# client.files.upload(file=job_description)
+def prompt_AI(resume_file, job_description_file):
+    resume = client.files.upload(file=resume_file)
+    job_description = client.files.upload(file=job_description_file)
 
-response = client.models.generate_content(
-    model="gemini-2.0-flash",
-    contents="What color is the sky?",
-)
+    prompt = (
+        "Attached is my resume and a job description. "
+        "Parse both and perform this analysis: "
+        "identify sentences to improve and propose replacements; "
+        "identify missing and present keywords in lists; "
+        "calculate a match score from 0–100%; "
+        "finally, provide counts (missing/present/suggestions) and one pro tip."
+    )
 
-print(response.text)
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[prompt, resume , job_description]
+    )
+
+    print(response.text)
