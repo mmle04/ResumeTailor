@@ -1,6 +1,6 @@
 import os
 
-def load_file(path: str, allowed_exts=(".docx",)) -> str:
+def load_file(path: str, allowed_exts=(".docx", ".pdf", ".txt")) -> str:
     # Validates that the file exists and has an allowed extension.
     if not path:
         raise ValueError("Path cannot be empty.")
