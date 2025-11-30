@@ -1,5 +1,9 @@
 dotenv
 docx
 google-genai
-skillNer
 ipython
+python-dotenv
+python-docx
+skillNer
+spacy
+en-core-web-lg
