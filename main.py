@@ -9,20 +9,23 @@ def main():
     
     try:
         resume_path = input("Enter path to your resume file (.docx): ").strip()
-        jd_path = input("Enter path to your job description file (.txt): ").strip()
+        job_path = input("Enter path to your job description file (.txt / .docx): ").strip()
 
         resume_file = load_file(resume_path)
-        job_file = load_file(jd_path)
+        job_file = load_file(job_path)
 
         print("\n=== Files Successfully Loaded ===\n")
         print(f"Resume: {resume_path} ({len(resume_file)} bytes)")
-        print(f"Job Description: {jd_path} ({len(job_file)} bytes)")
+        print(f"Job Description: {job_path} ({len(job_file)} bytes)")
         
 
-        resume_parsed = parse_resume(resume_file)
-        job_parsed = parse_job(job_file)
+        resume_parsed = parse_resume(resume_path)
+        job_parsed = parse_job(job_path)
 
-        prompt_AI(resume_parsed, job_parsed)
+        ai_output = prompt_AI(resume_parsed, job_parsed)
+
+        print("\n=== AI Response ===\n")
+        print(ai_output)
         
     except FileNotFoundError as e:
         print(f"Error: {e}")

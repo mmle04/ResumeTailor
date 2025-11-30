@@ -1,3 +1,5 @@
 dotenv
 docx
 google-genai
+skillNer
+ipython
