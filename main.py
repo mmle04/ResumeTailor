@@ -7,7 +7,7 @@ def main():
     print("\n=== Resume Tailor CLI ===\n")
     
     try:
-        resume_path = input("Enter path to your resume file (.docx): ").strip()
+        resume_path = input("Enter path to your resume file (.txt / .docx): ").strip()
         job_path = input("Enter path to your job description file (.txt / .docx): ").strip()
 
         resume_file = load_file(resume_path)

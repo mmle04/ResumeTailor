@@ -12,7 +12,7 @@ skill_extractor = SkillExtractor(nlp, SKILL_DB, PhraseMatcher)
 
 def parse_resume(path: str) -> dict:
     """
-    Reads a resume (.docx) and extracts skills using SkillNER.
+    Reads a resume (.txt / .docx) and extracts skills using SkillNER.
     Returns both raw text and the extracted skill list.
     """
     print("Parsing resume...")
@@ -23,8 +23,8 @@ def parse_resume(path: str) -> dict:
     _, ext = os.path.splitext(path)
     ext = ext.lower()
 
-    if ext != ".docx":
-        raise ValueError("parse_resume only supports .docx files")
+    if ext != ".docx" or ".txt":
+        raise ValueError("parse_resume supports .txt / .docx files")
 
     doc = Document(path)
     full_text = "\n".join(p.text for p in doc.paragraphs)
