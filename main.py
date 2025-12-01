@@ -3,7 +3,6 @@ from resume_parser import parse_resume
 from job_parser import parse_job
 from gemini import prompt_AI
 
-
 def main():
     print("\n=== Resume Tailor CLI ===\n")
     
