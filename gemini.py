@@ -1,4 +1,5 @@
 # reference: https://aistudio.google.com/
+
 from google import genai
 import os
 from dotenv import load_dotenv
