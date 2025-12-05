@@ -11,7 +11,7 @@ from google.genai import errors
 # Load .env if present (no error thrown yet if missing)
 load_dotenv()
 
-# The Gemini model version
+# The Gemini model version used
 MODEL = "gemini-2.5-flash"
 
 # Global Gemini client variable
@@ -20,10 +20,6 @@ _client: Optional[genai.Client] = None
 # Gets API key from environment. 
 # Raises an error if there is no set API key -> can't prompt Gemini
 def _resolve_api_key() -> str:
-    """
-    Resolve API key from environment. Supports GOOGLE_API_KEY or GEMINI_API_KEY.
-    Raises a clear error if not set.
-    """
     key = os.getenv("GEMINI_API_KEY")
     if not key:
         raise RuntimeError("Set GEMINI_API_KEY in your environment/.env")
@@ -39,7 +35,7 @@ def get_client() -> genai.Client:
 # Build the prompt to ask Gemini
 def _build_prompt() -> str:
     return (
-        "You are an AI career assistant and resume coach."
+        "You are an AI career assistant and resume coach. "
         "Compare the resume skills to the job description skills. "
         "Return a short summary as plain text (no JSON, no resume template). Explicitly list:\n"
         "- Missing skills (skills in job description not in resume) \n"
@@ -49,13 +45,9 @@ def _build_prompt() -> str:
         "Keep it concise into bullet points."
     )
 
-# Prompts Gemini with resume and job arguments
+# Prompts Gemini with resume and job arguments, returns concise response with analysis
 def prompt_AI(resume_parsed: dict, job_parsed: dict) -> str:
-    """
-    Compare resume skills to job description skills.
-    Returns a concise paragraph with bullet points (no JSON, no full template).
-    """
-
+    
     # calls func to build the prompt
     prompt = _build_prompt()
 
