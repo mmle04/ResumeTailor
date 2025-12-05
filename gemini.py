@@ -1,5 +1,4 @@
 # reference: https://aistudio.google.com/
-
 from google import genai
 import os
 from dotenv import load_dotenv
@@ -22,7 +21,8 @@ def prompt_AI(resume_parsed: dict, job_parsed: dict) -> str:
         "- Missing skills\n"
         "- Present skills\n"
         "- Suggestions to improve the resume\n"
-        "Format the output as a short paragraph or bullet points."
+        "Format the output in a small paragraph. List what is missing and what is present." \
+        "Based on what is missing, give advice, like telling them to add it to their skill set etc.."
     )
 
     response = client.models.generate_content(
