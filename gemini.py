@@ -1,34 +1,72 @@
+# gemini.py
 # reference: https://aistudio.google.com/
 
-from google import genai
 import os
-from dotenv import load_dotenv
 
+from typing import Optional
+from dotenv import load_dotenv
+from google import genai
+from google.genai import errors
+
+# Load .env if present (no error thrown yet if missing)
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+# The Gemini model version
+MODEL = "gemini-2.5-flash"
 
+# Global Gemini client variable
+_client: Optional[genai.Client] = None
+
+# Gets API key from environment. 
+# Raises an error if there is no set API key -> can't prompt Gemini
+def _resolve_api_key() -> str:
+    """
+    Resolve API key from environment. Supports GOOGLE_API_KEY or GEMINI_API_KEY.
+    Raises a clear error if not set.
+    """
+    key = os.getenv("GEMINI_API_KEY")
+    if not key:
+        raise RuntimeError("Set GEMINI_API_KEY in your environment/.env")
+    return key
+
+# Creates and returns Gemini AI client
+def get_client() -> genai.Client:
+    global _client
+    if _client is None:
+        _client = genai.Client(api_key=_resolve_api_key())
+    return _client
+
+# Build the prompt to ask Gemini
+def _build_prompt() -> str:
+    return (
+        "You are an AI career assistant and resume coach."
+        "Compare the resume skills to the job description skills. "
+        "Return a short summary as plain text (no JSON, no resume template). Explicitly list:\n"
+        "- Missing skills (skills in job description not in resume) \n"
+        "- Present skills (skills in job description and in resume) \n"
+        "- Suggestions to improve the resume (rewording, reformatting, etc) \n"
+        "- Match score (how the resume matches the job description from 0-100%)\n"
+        "Keep it concise into bullet points."
+    )
+
+# Prompts Gemini with resume and job arguments
 def prompt_AI(resume_parsed: dict, job_parsed: dict) -> str:
     """
     Compare resume skills to job description skills.
     Returns a concise paragraph with bullet points (no JSON, no full template).
     """
 
-    prompt = (
-        "You are an AI career assistant. "
-        "Compare the skills from this resume with the job description skills. "
-        "Return a short summary as plain text (no JSON, no resume template). "
-        "List these:\n"
-        "- Missing skills\n"
-        "- Present skills\n"
-        "- Suggestions to improve the resume\n"
-        "Format the output as a short paragraph or bullet points."
-    )
+    # calls func to build the prompt
+    prompt = _build_prompt()
 
-    response = client.models.generate_content(
-        model="gemini-2.0-flash-lite",
+    # extract skills from parsed resume and job dictionaries
+    resume_skills = resume_parsed.get("skills", [])
+    job_skills = job_parsed.get("skills", [])
+
+    response = get_client().models.generate_content(
+        model=MODEL,
         contents=[
-            f"{prompt}\nResume Skills: {resume_parsed['skills']}\nJob Skills: {job_parsed['skills']}"
+            f"{prompt}\nResume Skills: {resume_skills}\nJob Skills: {job_skills}"
         ],
     )
 
