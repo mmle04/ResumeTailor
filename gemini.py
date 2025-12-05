@@ -18,7 +18,7 @@ def prompt_AI(resume_parsed: dict, job_parsed: dict) -> str:
         "You are an AI career assistant. "
         "Compare the skills from this resume with the job description skills. "
         "Return a short summary as plain text (no JSON, no resume template). "
-        "Include:\n"
+        "List these:\n"
         "- Missing skills\n"
         "- Present skills\n"
         "- Suggestions to improve the resume\n"

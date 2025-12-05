@@ -1,4 +1,3 @@
-dotenv
 python-docx
 google-genai
 ipython
@@ -6,4 +5,3 @@ python-dotenv
 python-docx
 skillNer
 spacy
-en-core-web-lg

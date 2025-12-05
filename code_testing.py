@@ -1,8 +1,11 @@
+# code_testing.py
+
 import unittest
 from resume_parser import parse_resume
 from job_parser import parse_job
 from file_loader import load_file
 import tempfile
+import gemini as g
 
 class Tests(unittest.TestCase):
 
@@ -77,6 +80,27 @@ class Tests(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             load_file(empty_path, allowed_exts=(".docx",))
+
+    # --- TEST 6: testGeminiPromptAIOutput ---
+    # User inputs a valid resume and job description, gemini makes desired output
+    # We expect the output gemini creates to have mentioned present skills (python)
+    # and missing skills (kubernetes).
+    def testGeminiPromptAIOutput(self):
+        print("testing testGeminiPromptAIOutput...")
+
+        # fake resume and job desc to test output
+        resume = {"skills": ["Python", "PostgreSQL"]}
+        job    = {"skills": ["Python", "Kubernetes"]}
+
+        # call function to get output from gemini and lowercase it to normalize tests
+        out = g.prompt_AI(resume, job).lower()
+        # print(out)
+
+        # check if these words are in the output
+        self.assertIn("missing", out)
+        self.assertIn("kubernetes", out)
+        self.assertIn("present", out)
+        self.assertIn("python", out)
 
 if __name__ == "__main__":
     unittest.main()
