@@ -1,5 +1,5 @@
 dotenv
-docx
+python-docx
 google-genai
 ipython
 python-dotenv
