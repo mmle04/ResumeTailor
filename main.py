@@ -3,12 +3,11 @@ from resume_parser import parse_resume
 from job_parser import parse_job
 from gemini import prompt_AI
 
-
 def main():
     print("\n=== Resume Tailor CLI ===\n")
     
     try:
-        resume_path = input("Enter path to your resume file (.docx): ").strip()
+        resume_path = input("Enter path to your resume file (.txt / .docx): ").strip()
         job_path = input("Enter path to your job description file (.txt / .docx): ").strip()
 
         resume_file = load_file(resume_path)

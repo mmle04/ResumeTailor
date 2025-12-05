@@ -1,35 +1,3 @@
-# # resume_parser.py
-# import re
-# from docx import Document  # pip install python-docx
-
-# STOPWORDS = {
-#     "the", "and", "a", "an", "of", "for", "in", "on", "to", "with",
-#     "is", "are", "as", "at", "by", "from", "this", "that", "my"
-# }
-
-# def _extract_keywords(text: str) -> list[str]:
-#     words = re.findall(r"[A-Za-z]{3,}", text.lower())
-#     unique = {w for w in words if w not in STOPWORDS}
-#     return sorted(unique)
-
-# def parse_resume(path: str) -> dict:
-#     # Parses a .docx resume file and returns a simple dictionary with raw text and extracted keywords.
-
-#     doc = Document(path)
-#     full_text = "\n".join(p.text for p in doc.paragraphs)
-
-#     keywords = _extract_keywords(full_text)
-
-#     print("Parsed resume successfully.")
-#     return {
-#         "raw_text": full_text,
-#         "keywords": keywords
-#     }
-
-
-
-
-# resume_parser.py
 import os
 from docx import Document
 import en_core_web_lg
@@ -44,7 +12,7 @@ skill_extractor = SkillExtractor(nlp, SKILL_DB, PhraseMatcher)
 
 def parse_resume(path: str) -> dict:
     """
-    Reads a resume (.docx) and extracts skills using SkillNER.
+    Reads a resume (.txt / .docx) and extracts skills using SkillNER.
     Returns both raw text and the extracted skill list.
     """
     print("Parsing resume...")
@@ -55,8 +23,8 @@ def parse_resume(path: str) -> dict:
     _, ext = os.path.splitext(path)
     ext = ext.lower()
 
-    if ext != ".docx":
-        raise ValueError("parse_resume only supports .docx files")
+    if ext != ".docx" or ".txt":
+        raise ValueError("parse_resume supports .txt / .docx files")
 
     doc = Document(path)
     full_text = "\n".join(p.text for p in doc.paragraphs)
